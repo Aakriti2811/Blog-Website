@@ -9,7 +9,7 @@ export async function GET(
 ) {
   await dbConnect();
 
-  const { slug } = params;
+  const { slug } = await params;
 
   const post = await Post.findOne({ slug })
     .populate("user", "name")
@@ -70,7 +70,7 @@ export async function DELETE(
 ) {
   await dbConnect();
 
-  const { slug } = params;
+  const { slug } = await params;
   const deleted = await Post.findOneAndDelete({ slug }).populate("user", "name");
 
   if (!deleted) {

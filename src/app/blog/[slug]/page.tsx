@@ -39,7 +39,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const post = await getPost(params.slug);
+  const {slug} =await params
+  const post = await getPost(slug);
   if (!post) return {};
 
   const desc = post.content
@@ -54,7 +55,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: desc,
-      url: `${base}/blog/${params.slug}`,
+      url: `${base}/blog/${slug}`,
     },
     twitter: {
       title: post.title,
@@ -68,10 +69,11 @@ export default async function BlogPostPage({
 }: {
   params: { slug: string };
 }) {
-  const post = await getPost(params.slug);
+  const {slug} = await params
+  const post = await getPost(slug);
   if (!post) notFound();
 
-  const suggestions = await getSuggestions(params.slug);
+  const suggestions = await getSuggestions(slug);
 
   const author = post.user?.name ?? "User";
   const initials = author
