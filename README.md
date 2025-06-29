@@ -78,4 +78,12 @@ It features **Next.js App Router**, **MongoDB database integration**, and a **sl
 
 ---
 
-
+## 📂 Folder Structure
+├── app/
+│ ├── api/ # API routes (CRUD operations)
+│ ├── blog/ # Blog public pages
+│ ├── (admin)/ # Admin dashboard and blog management
+├── components/ # UI components and Rich Text Editor
+├── lib/ # MongoDB database connection
+├── models/ # Mongoose schemas
+└── public/ # Public assets (images, etc.)
