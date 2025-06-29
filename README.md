@@ -78,5 +78,4 @@ It features **Next.js App Router**, **MongoDB database integration**, and a **sl
 
 ---
 
-## 📂 Folder Structure
 
