@@ -29,14 +29,14 @@ export function LoginForm({
     e.preventDefault();
 
     const res = await signIn('credentials', {
-      redirect: false,          
       email,
       password,
+        callbackUrl: '/admin/dashboard',
     });
 
-    if (res?.ok) {
-        router.refresh();
-      router.push('/admin/dashboard');
+    if (!res?.ok) {
+      
+      console.log("login failed")
     } else {
       setError('Invalid email or password');
     }
