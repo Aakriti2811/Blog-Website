@@ -36,5 +36,54 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 =======
-# Blog-Website
->>>>>>> 484f9442ade16c585d266dca6c05de57a5ece1e3
+# Blog CMS ✨  
+A Full-Stack Blog Content Management System
+
+![Next.js](https://img.shields.io/badge/Next.js-14-blue) 
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
+![Status](https://img.shields.io/badge/Project-Complete-brightgreen)
+
+## 📸 Preview
+> _Sleek and Responsive Blog CMS with Admin Control_
+
+![Blog Home Page](./screenshots/blog-home.png)
+![Admin Dashboard](./screenshots/admin-dashboard.png)
+
+---
+
+## 🚀 Project Overview
+
+**Blog CMS** is a modern, fully responsive blog management system where:
+- Users can browse featured blog posts.
+- Admins can create, update, and delete posts using a rich text editor.
+
+It features **Next.js App Router**, **MongoDB database integration**, and a **sleek UI inspired by modern design standards**.
+
+---
+
+## ✨ Features
+- ✅ Admin Dashboard with **Create, Read, Update, Delete (CRUD)** operations
+- ✅ Rich Text Editor for formatting blog content (supports images)
+- ✅ SEO-friendly URLs using slugs
+- ✅ Responsive grid layout for displaying blog posts
+- ✅ Clean and minimal UI with modern fonts
+- ✅ Fully mobile responsive
+
+---
+
+## 🛠️ Tech Stack
+- **Frontend:** Next.js 14, Tailwind CSS
+- **Backend:** MongoDB, Next.js API Routes
+- **Rich Text Editor:** CKEditor (dynamically imported for SSR support)
+
+---
+
+## 📂 Folder Structure
+├── app/
+│ ├── api/ # API routes (CRUD operations)
+│ ├── blog/ # Blog public pages
+│ ├── (admin)/ # Admin dashboard and blog management
+├── components/ # UI components and Rich Text Editor
+├── lib/ # MongoDB database connection
+├── models/ # Mongoose schemas
+└── public/ # Public assets (images, etc.)

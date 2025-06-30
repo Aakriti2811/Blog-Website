@@ -1,1 +1,4 @@
 @import "tailwindcss";
+ck-content p{
+    background: inherit;
+}
