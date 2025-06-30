@@ -1,9 +1,10 @@
-/* app/(admin)/edit/[slug]/page.tsx */
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Card,
@@ -62,7 +63,13 @@ export default function EditPostPage() {
     });
 
     setSubmitting(false);
-    if (res.ok) router.push("/admin/dashboard");
+
+    if (res.ok) {
+      toast.success("Post updated successfully!");
+      setTimeout(() => router.push("/admin/dashboard"), 1500);
+    } else {
+      toast.error("Failed to update post");
+    }
   };
 
   return (
@@ -75,7 +82,6 @@ export default function EditPostPage() {
             className="shrink-0"
             onClick={() => router.back()}
           >
-            {/* simple left arrow */}
             <svg
               viewBox="0 0 24 24"
               className="h-5 w-5"
@@ -88,7 +94,6 @@ export default function EditPostPage() {
           </Button>
           <h1 className="text-2xl font-semibold">Edit Post</h1>
         </CardHeader>
-
 
         {loading ? (
           <CardContent className="space-y-6">
@@ -129,6 +134,7 @@ export default function EditPostPage() {
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   placeholder="seo-friendly-slug"
+                  readOnly
                 />
               </div>
             </CardContent>
@@ -141,6 +147,7 @@ export default function EditPostPage() {
           </form>
         )}
       </Card>
+      <ToastContainer position="top-right" autoClose={1500} />
     </div>
   );
 }

@@ -2,18 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  Table,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "@/components/ui/table";
+import { Table, TableHead, TableHeader, TableRow, TableCell, TableBody } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -24,6 +18,7 @@ interface Post {
 }
 
 export default function AdminDashboard() {
+  const { data: session } = useSession();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +37,6 @@ export default function AdminDashboard() {
       }
     })();
   }, []);
-
 
   const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
@@ -65,9 +59,13 @@ export default function AdminDashboard() {
       <Card className="mx-auto w-full max-w-6xl">
         <CardHeader className="flex flex-row items-center justify-between">
           <h2 className="text-2xl font-semibold">All Blog Posts</h2>
-          <Button asChild>
-            <Link href="/admin/create">Create New Post</Link>
-          </Button>
+
+          {/* Create button only for Admins */}
+          {session?.user?.role === "admin" && (
+            <Button asChild>
+              <Link href="/admin/create">Create New Post</Link>
+            </Button>
+          )}
         </CardHeader>
 
         <CardContent>
@@ -82,7 +80,6 @@ export default function AdminDashboard() {
               No posts found. Start by creating your first post!
             </p>
           ) : (
-
             <Table className="w-full table-fixed">
               <TableHeader>
                 <TableRow>
@@ -104,20 +101,24 @@ export default function AdminDashboard() {
                     </TableCell>
 
                     <TableCell className="flex justify-end gap-2">
-                      <Button variant="secondary" size="sm" asChild>
-                        <Link href={`/admin/edit/${post.slug}`}>Edit</Link>
-                      </Button>
+                      {session?.user?.role === "admin" && (
+                        <>
+                          <Button variant="secondary" size="sm" asChild>
+                            <Link href={`/admin/edit/${post.slug}`}>Edit</Link>
+                          </Button>
+
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDelete(post.slug)}
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
 
                       <Button variant="outline" size="sm" asChild>
                         <Link href={`/blog/${post.slug}`}>View</Link>
-                      </Button>
-
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDelete(post.slug)}
-                      >
-                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>

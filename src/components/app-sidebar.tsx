@@ -1,43 +1,15 @@
-'use client'
+ 'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarRail,
-} from '@/components/ui/sidebar'
-
-import {
-  Notebook,
-  FilePlus2,
-  LogOut,
-} from 'lucide-react'
+import { Sidebar, SidebarContent, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarRail } from '@/components/ui/sidebar'
+import { Notebook, FilePlus2, LogOut } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const { data: session } = useSession()
-
-  const menuItems = [
-    {
-      title: 'All Blogs',
-      url: '/admin/dashboard',
-      icon: Notebook,
-    },
-    {
-      title: 'Create Blog',
-      url: '/admin/create',
-      icon: FilePlus2,
-    },
-  ]
 
   const userName = session?.user?.name || 'Admin'
   const initials = userName
@@ -46,6 +18,28 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     .join('')
     .slice(0, 2)
     .toUpperCase()
+
+  const handleCreateClick = (e: React.MouseEvent) => {
+    if (session?.user?.role !== 'admin') {
+      e.preventDefault()
+      toast.info('You need permission from admin to create a blog. Please contact itsaakriti0@gmail.com.', { autoClose: 5000 })
+    }
+  }
+
+  const menuItems = [
+    {
+      title: 'All Blogs',
+      url: '/admin/dashboard',
+      icon: Notebook,
+      isRestricted: false,
+    },
+    {
+      title: 'Create Blog',
+      url: '/admin/create',
+      icon: FilePlus2,
+      isRestricted: true, // Restricted to admin
+    }
+  ]
 
   return (
     <Sidebar {...props}>
@@ -68,7 +62,11 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                     asChild
                     data-active={pathname.startsWith(item.url) || undefined}
                   >
-                    <Link href={item.url} className="gap-2">
+                    <Link
+                      href={item.url}
+                      className="gap-2"
+                      onClick={item.isRestricted ? handleCreateClick : undefined}
+                    >
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </Link>
